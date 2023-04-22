@@ -32,7 +32,7 @@ Each file is listed immediately after the header.
 If you want to read a file, you can take its offset in the header and read it from that location to the size of the file in the header.
 
 ## File Struct Image
-![img_format](https://raw.githubusercontent.com/yuria0309/UWDTool/master/uwdtool/img/unitywebdata_format.png)
+![img_format](https://raw.githubusercontent.com/yuria0309/uwdtool/master/img/unitywebdata_format.png)
 
 ## Usage
 ```
