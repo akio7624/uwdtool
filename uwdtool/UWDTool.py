@@ -6,7 +6,7 @@ from glob import glob
 from pathlib import Path
 
 
-UWDT_VERSION = "1.0.2"
+UWDT_VERSION = "1.0.3"
 HELP_STR = f"""UWDTool v{UWDT_VERSION}"""
 
 
@@ -214,7 +214,7 @@ class Inspector:
 
 def main():
     parser = argparse.ArgumentParser(
-                    prog="UWDTool",
+                    prog="uwdtool",
                     description=HELP_STR,
                     formatter_class=argparse.RawTextHelpFormatter)
     g = parser.add_mutually_exclusive_group()

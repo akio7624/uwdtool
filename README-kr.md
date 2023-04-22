@@ -1,5 +1,5 @@
 * 한국어
-* [English](README-en.md)
+* [English](https://github.com/yuria0309/uwdtool/blob/master/README.md)
 
 UnityWebData 파일을 풀거나 다시 합치는 도구.
 단순히 포함하고 있는 파일 정보를 확인할 수도 있어요.
@@ -35,11 +35,13 @@ int값은 리틀 엔디안으로 읽어야합니다.
 ![img_format](https://raw.githubusercontent.com/yuria0309/uwdtool/master/img/unitywebdata_format.png)
 
 ## 사용법
+
+### CLI
 ```
 python UWDTool.py <작업옵션> [-i 입력경로] [-o 출력경로]
 ```
 
-### 작업옵션
+#### 작업옵션
 * -p --pack: 입력경로의 파일들을 UnityWebData 파일로 만들어 출력경로에 저장합니다.
 이 때 입력경로는 패킹할 파일들을 포함하고 있는 폴더의 경로입니다.
 * -u --unpack: 입력경로의 UnityWebData 파일을 언패킹하여 출력경로에 저장합니다.
@@ -47,3 +49,15 @@ python UWDTool.py <작업옵션> [-i 입력경로] [-o 출력경로]
 * -isp --inspect: 입력경로의 UnityWebData파일이 포함하고 있는 파일들의 정보를 출력합니다.
 여기에는 파일의 이름과 크기가 표시됩니다. 이 경우 출력경로는 필요하지 않습니다.
 * -h --help: 도움말 및 프로그램의 정보를 출력합니다.
+
+### Python
+```
+from uwdtool import UWDTool
+
+
+UWDTool.Packer().pack(args.ARG_INPUT, args.ARG_OUTPUT)  # packing
+
+UWDTool.UnPacker().unpack(args.ARG_INPUT, args.ARG_OUTPUT)  # unpacking
+
+UWDTool.Inspector().inspect(args.ARG_INPUT)  # inspector
+```

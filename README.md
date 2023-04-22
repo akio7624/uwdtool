@@ -1,4 +1,4 @@
-* [한국어](README-kr.md)
+* [한국어](https://github.com/yuria0309/uwdtool/blob/master/README-kr.md)
 * English
 
 The tool for packing or unpacking UnityWebData files.
@@ -36,10 +36,15 @@ If you want to read a file, you can take its offset in the header and read it fr
 
 ## Usage
 ```
+pip install uwdtool
+```
+
+### CLI
+```
 python UWDTool.py <Control Option> [-i input_path] [-o output_path]
 ```
 
-### Control Option
+#### Control Option
 * -p --pack: Make the files in the input path into a UnityWebData file and save them to the output path.
 The input path is the path of the folder containing the files to be packed.
 * -u --unpack: Unpack the UnityWebData file in the input path and save it to the output path.
@@ -47,3 +52,15 @@ The input path is the path of the file to be unpacked, and the output path is th
 * -isp --inspect: Print information about the files that the UnityWebData file in the input path contains.
 It shows the name and size of the file. No output path is required in this case.
 * -h --help: Print help message and information from the program.
+
+### Python
+```
+from uwdtool import UWDTool
+
+
+UWDTool.Packer().pack(args.ARG_INPUT, args.ARG_OUTPUT)  # packing
+
+UWDTool.UnPacker().unpack(args.ARG_INPUT, args.ARG_OUTPUT)  # unpacking
+
+UWDTool.Inspector().inspect(args.ARG_INPUT)  # inspector
+```
