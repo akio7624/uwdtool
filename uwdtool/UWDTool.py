@@ -6,7 +6,7 @@ from glob import glob
 from pathlib import Path
 
 
-UWDT_VERSION = "1.0.3"
+UWDT_VERSION = "1.1.0"
 HELP_STR = f"""UWDTool v{UWDT_VERSION}"""
 
 
