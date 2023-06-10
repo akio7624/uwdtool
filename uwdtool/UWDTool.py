@@ -100,9 +100,9 @@ class Packer:
         targets = []
         for target in targets_:
             if self.input_path.endswith("/"):
-                targets.append(target[len(self.input_path):])
+                targets.append(target[len(self.input_path):].replace("\\", "/"))
             else:
-                targets.append(target[len(self.input_path)+1:])
+                targets.append(target[len(self.input_path)+1:].replace("\\", "/"))
 
         OUTPUT = open(self.output_path, "wb")
 
