@@ -1,5 +1,7 @@
-* 한국어
-* [English](https://github.com/yuria0309/uwdtool/blob/master/README.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+[![kr](https://img.shields.io/badge/lang-kr-green.svg)](README-kr.md)
+
+---
 
 UnityWebData 파일을 풀거나 다시 합치는 도구.
 단순히 포함하고 있는 파일 정보를 확인할 수도 있어요.
