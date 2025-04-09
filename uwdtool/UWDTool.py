@@ -5,9 +5,9 @@ import hashlib
 from glob import glob
 from pathlib import Path
 
-from Common import print_err, HELP_STR, sizeof_fmt, to_hex
-from UnityWebData import UnityWebData
+from Common import print_err, HELP_STR
 from Unpacker import UnPacker
+from uwdtool.Inspector import Inspector
 
 
 class Packer:
@@ -71,34 +71,6 @@ class Packer:
         print(f"Total Size: {total_size}bytes ({Inspector().sizeof_fmt(total_size)})")
         md5 = hashlib.md5(open(self.output_path, "rb").read()).hexdigest()
         print(f"MD5 checksum: {md5}")
-
-
-class Inspector:
-    def __init__(self, path):
-        self.path = path
-
-    def inspect(self):
-        if not os.path.isfile(self.path):
-            print_err(f"Path '{self.path}' is not a file")
-
-        file = UnityWebData()
-        data = file.load(self.path)
-
-        print(f"** Dump of '{self.path}'")
-        print()
-        print(f"File Signature: {file.SIGNATURE.replace('\0', '\\0')}")
-        print(f"Beginning Offset: {file.BEGINNING_OFFSET} (" + to_hex(file.BEGINNING_OFFSET, 8) + ")")
-        print()
-
-        for idx, info in enumerate(file.FILE_INFO):
-            print(f"File #{idx}")
-            print(f"Name: {info.name}")
-            print(f"Offset: {info.offset} (" + to_hex(info.offset, 8) + ")")
-            size_human = sizeof_fmt(info.length)
-            print(f"Length: {info.length} ({size_human})")
-            print()
-
-        data.close()
 
 
 class Main:
