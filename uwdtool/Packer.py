@@ -4,8 +4,8 @@ import struct
 from glob import glob
 from pathlib import Path
 
-from uwdtool.Common import print_err
-from uwdtool.Inspector import Inspector
+from Common import print_err
+from Inspector import Inspector
 
 
 class Packer:

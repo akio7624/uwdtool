@@ -2,8 +2,8 @@ import argparse
 
 from Common import print_err, HELP_STR
 from Unpacker import Unpacker
-from uwdtool.Inspector import Inspector
-from uwdtool.Packer import Packer
+from Packer import Packer
+from Inspector import Inspector
 
 
 class Main:
