@@ -1,7 +1,7 @@
 import argparse
 
 from Common import print_err, HELP_STR
-from Unpacker import UnPacker
+from Unpacker import Unpacker
 from uwdtool.Inspector import Inspector
 from uwdtool.Packer import Packer
 
@@ -28,7 +28,7 @@ class Main:
         if args.pack:
             pass  # TODO Packer(args.ARG_INPUT, args.ARG_OUTPUT).pack()
         elif args.unpack:
-            UnPacker(args.ARG_INPUT, args.ARG_OUTPUT).unpack()
+            Unpacker(args.ARG_INPUT, args.ARG_OUTPUT).unpack()
         elif args.inspect:
             Inspector(args.ARG_INPUT).inspect()
         else:

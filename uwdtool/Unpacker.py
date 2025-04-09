@@ -5,7 +5,7 @@ from Common import print_err
 from UnityWebData import UnityWebData
 
 
-class UnPacker:
+class Unpacker:
     def __init__(self, input_path: Optional[str], output_path: Optional[str]):
         if input_path is None:
             print_err(f"input path is None")
