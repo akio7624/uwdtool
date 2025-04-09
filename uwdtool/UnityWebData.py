@@ -17,21 +17,22 @@ class UnityWebData:
         self.SIGNATURE: str = ""
         self.BEGINNING_OFFSET: int = -1
         self.FILE_INFO: list[FILE] = list()
+        self.FILES: list[bytearray] = list()
 
     def load(self, path):
-        file: BinaryReader = BinaryReader(path)
+        reader: BinaryReader = BinaryReader(path)
 
-        self.SIGNATURE = file.read_string(16)
+        self.SIGNATURE = reader.read_string(16)
         if self.SIGNATURE != "UnityWebData1.0\0":
             print_err("File is not a UnityWebData file")
 
-        self.BEGINNING_OFFSET = file.read_uint32()
+        self.BEGINNING_OFFSET = reader.read_uint32()
 
-        while file.tell() < self.BEGINNING_OFFSET:
-            offset = file.read_uint32()
-            length = file.read_uint32()
-            name_size = file.read_uint32()
-            name = file.read_string(name_size)
+        while reader.tell() < self.BEGINNING_OFFSET:
+            offset = reader.read_uint32()
+            length = reader.read_uint32()
+            name_size = reader.read_uint32()
+            name = reader.read_string(name_size)
 
             self.FILE_INFO.append(FILE(
                 offset=offset,
@@ -40,4 +41,8 @@ class UnityWebData:
                 name=name
             ))
 
-        return file
+        for file in self.FILE_INFO:
+            reader.seek(file.offset)
+            self.FILES.append(reader.read_bytes(file.length))
+
+        return reader
