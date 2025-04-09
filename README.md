@@ -1,5 +1,7 @@
-* [한국어](https://github.com/yuria0309/uwdtool/blob/master/README-kr.md)
-* English
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+[![kr](https://img.shields.io/badge/lang-kr-green.svg)](README-kr.md)
+
+---
 
 The tool for packing or unpacking UnityWebData files.
 You can also simply check the file information that it contains.
