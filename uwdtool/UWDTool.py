@@ -9,14 +9,6 @@ from Common import print_err, HELP_STR, sizeof_fmt, to_hex
 from UnityWebData import UnityWebData
 
 
-class UWDTException(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-
-    def __str__(self):
-        return self.msg
-
-
 class Packer:
     input_path = None
     output_path = None
@@ -27,11 +19,11 @@ class Packer:
         self.output_path = output_path
 
         if self.input_path is None:
-            raise UWDTException(f"input path is None")
+            print_err(f"input path is None")
         if not os.path.isdir(self.input_path):
-            raise UWDTException(f"input path {self.input_path} is not a directory")
+            print_err(f"input path {self.input_path} is not a directory")
         if self.output_path is None:
-            raise UWDTException(f"output path is None")
+            print_err(f"output path is None")
 
         os.makedirs(Path(self.output_path).parent.absolute(), exist_ok=True)
 
@@ -90,9 +82,9 @@ class UnPacker:
         self.output_path = output_path
 
         if self.input_path is None:
-            raise UWDTException(f"input path is None")
+            print_err(f"input path is None")
         if not os.path.isfile(self.input_path):
-            raise UWDTException(f"input path {self.input_path} is not a file")
+            print_err(f"input path {self.input_path} is not a file")
 
         uwd = UnityWebData()
         file = uwd.load(self.input_path)
