@@ -6,7 +6,7 @@ def print_err(msg: str):
     print(f"exit program...")
     exit(1)
 
-def sizeof_fmt(size: int, suffix="B"):
+def sizeof_fmt(size: int, suffix="B") -> str:
     for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
         if abs(size) < 1024.0:
             return f"{size:3.1f}{unit}{suffix}"
