@@ -29,12 +29,12 @@ class UnityWebData:
         if self.SIGNATURE != "UnityWebData1.0\0":
             raise UWDTException("File is not a UnityWebData file")
 
-        self.BEGINNING_OFFSET = file.read_int()
+        self.BEGINNING_OFFSET = file.read_uint32()
 
         while file.tell() < self.BEGINNING_OFFSET:
-            offset = file.read_int()
-            length = file.read_int()
-            name_length = file.read_int()
+            offset = file.read_uint32()
+            length = file.read_uint32()
+            name_length = file.read_uint32()
             name = file.read_string(name_length)
 
             self.FILE_INFO.append({
@@ -137,7 +137,7 @@ class UnPacker:
             name = info["name"]
 
             file.seek(offset)
-            data = file.read_bin(length)
+            data = file.read_bytes(length)
 
             file_output_path = os.path.join(self.output_path, name)
             os.makedirs(os.path.dirname(file_output_path), exist_ok=True)
