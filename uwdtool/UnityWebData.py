@@ -10,6 +10,7 @@ class FILE:
     length: int
     name_size: int
     name: str
+    data: bytearray
 
 
 class UnityWebData:
@@ -17,7 +18,6 @@ class UnityWebData:
         self.SIGNATURE: str = ""
         self.BEGINNING_OFFSET: int = -1
         self.FILE_INFO: list[FILE] = list()
-        self.FILES: list[bytearray] = list()
 
     def load(self, path):
         reader: BinaryReader = BinaryReader(path)
@@ -38,11 +38,12 @@ class UnityWebData:
                 offset=offset,
                 length=length,
                 name_size=name_size,
-                name=name
+                name=name,
+                data=bytearray()
             ))
 
-        for file in self.FILE_INFO:
+        for idx, file in enumerate(self.FILE_INFO):
             reader.seek(file.offset)
-            self.FILES.append(reader.read_bytes(file.length))
+            self.FILE_INFO[idx].data = reader.read_bytes(file.length)
 
         return reader
