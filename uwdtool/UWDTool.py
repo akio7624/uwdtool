@@ -5,9 +5,7 @@ import hashlib
 from glob import glob
 from pathlib import Path
 
-
-UWDT_VERSION = "1.1.0"
-HELP_STR = f"""UWDTool v{UWDT_VERSION}"""
+from Common import print_err, HELP_STR, sizeof_fmt, to_hex
 
 
 class UWDTException(Exception):
@@ -211,34 +209,34 @@ class Inspector:
 
         data.close()
 
+class Main:
+    def __init__(self):
+        self.parser = argparse.ArgumentParser(
+            prog = "uwdtool",
+            description = HELP_STR,
+            formatter_class = argparse.RawTextHelpFormatter
+        )
+        g = self.parser.add_mutually_exclusive_group()
 
-def main():
-    parser = argparse.ArgumentParser(
-                    prog="uwdtool",
-                    description=HELP_STR,
-                    formatter_class=argparse.RawTextHelpFormatter)
-    g = parser.add_mutually_exclusive_group()
+        g.add_argument("-p", "--pack", action="store_true", help="packing files in input-path directory")
+        g.add_argument("-u", "--unpack", action="store_true", help="unpacking input-path file to output-path directory")
+        g.add_argument("-isp", "--inspect", action="store_true", help="show file information list of input-path file")
 
-    g.add_argument("-p", "--pack", action="store_true", help="packing files in input-path directory")
-    g.add_argument("-u", "--unpack", action="store_true", help="unpacking input-path file to output-path directory")
-    g.add_argument("-isp", "--inspect", action="store_true", help="show file information list of input-path file")
+        self.parser.add_argument("-i", dest="ARG_INPUT", help="input path")
+        self.parser.add_argument("-o", dest="ARG_OUTPUT", help="output path")
 
-    parser.add_argument("-i", dest="ARG_INPUT", help="input path")
-    parser.add_argument("-o", dest="ARG_OUTPUT", help="output path")
-    args = parser.parse_args()
+    def main(self):
+        args = self.parser.parse_args()
 
-    if args.pack:
-        Packer().pack(args.ARG_INPUT, args.ARG_OUTPUT)
-    elif args.unpack:
-        UnPacker().unpack(args.ARG_INPUT, args.ARG_OUTPUT)
-    elif args.inspect:
-        if args.ARG_INPUT is None:
-            raise UWDTException("input file option is missing")
+        if args.pack:
+            pass  # TODO Packer().pack(args.ARG_INPUT, args.ARG_OUTPUT)
+        elif args.unpack:
+            pass  # TODO UnPacker().unpack(args.ARG_INPUT, args.ARG_OUTPUT)
+        elif args.inspect:
+            Inspector(args.ARG_INPUT).inspect()
         else:
-            Inspector().inspect(args.ARG_INPUT)
-    else:
-        raise UWDTException("Unknown Control Option")
+            print_err("Please select option.")
 
 
 if __name__ == "__main__":
-    main()
+    Main().main()
