@@ -179,33 +179,29 @@ class UnPacker:
 
 
 class Inspector:
-    path = None
-
-    def sizeof_fmt(self, num, suffix="B"):
-        for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
-            if abs(num) < 1024.0:
-                return f"{num:3.1f}{unit}{suffix}"
-            num /= 1024.0
-        return f"{num:.1f}Yi{suffix}"
-
-    def inspect(self, path):
+    def __init__(self, path):
         self.path = path
+
+    def inspect(self):
+        if not os.path.isfile(self.path):
+            print_err(f"Path '{self.path}' is not a file")
+
         file = UnityWebData()
         data = file.load(self.path)
 
-        print(f"** Dump of {self.path}")
-        print("")
-        print(f"File Signature: {file.SIGNATURE}")
-        print(f"Beginning Offset: {file.BEGINNING_OFFSET}")
-        print("")
+        print(f"** Dump of '{self.path}'")
+        print()
+        print(f"File Signature: {file.SIGNATURE.replace('\0', '\\0')}")
+        print(f"Beginning Offset: {file.BEGINNING_OFFSET} (" + to_hex(file.BEGINNING_OFFSET, 8) + ")")
+        print()
 
         for idx, info in enumerate(file.FILE_INFO):
             print(f"File #{idx}")
             print(f"Name: {info['name']}")
-            print(f"Offset: {info['offset']}")
-            size_h = self.sizeof_fmt(info['length'])
-            print(f"Length: {info['length']} ({size_h})")
-            print("")
+            print(f"Offset: {info['offset']} (" + to_hex(info['offset'], 8) + ")")
+            size_human = sizeof_fmt(info['length'])
+            print(f"Length: {info['length']} ({size_human})")
+            print()
 
         data.close()
 
