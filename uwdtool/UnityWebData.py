@@ -30,13 +30,13 @@ class UnityWebData:
         while file.tell() < self.BEGINNING_OFFSET:
             offset = file.read_uint32()
             length = file.read_uint32()
-            name_length = file.read_uint32()
-            name = file.read_string(name_length)
+            name_size = file.read_uint32()
+            name = file.read_string(name_size)
 
             self.FILE_INFO.append(FILE(
                 offset=offset,
                 length=length,
-                name_size=name_length,
+                name_size=name_size,
                 name=name
             ))
 
