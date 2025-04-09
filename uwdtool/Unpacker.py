@@ -9,34 +9,30 @@ class Unpacker:
     def __init__(self, input_path: Optional[str], output_path: Optional[str]):
         if input_path is None:
             print_err(f"input path is None")
-        elif output_path is None:
-            print_err(f"output path is None")
         elif not os.path.isfile(input_path):
             print_err(f"input path '{input_path}' is not a file")
-        elif not os.path.isdir(output_path):
-            print_err(f"output path '{output_path}' is not a directory")
+
+        if output_path is None:
+            output_path = os.path.join(os.getcwd(), "output")
+        elif os.path.isfile(output_path):
+            print_err(f"input path '{input_path}' is not a directory")
 
         self.INPUT_PATH: str = input_path
         self.OUTPUT_PATH: str = output_path
+
+        os.makedirs(self.OUTPUT_PATH, exist_ok=True)
 
     def unpack(self):
         print("Start unpacking...")
 
         uwd = UnityWebData()
-        file = uwd.load(self.INPUT_PATH)
+        reader = uwd.load(self.INPUT_PATH)
 
-        if self.OUTPUT_PATH is None:
-            self.OUTPUT_PATH = os.path.join(os.getcwd(), "output")
-        os.makedirs(self.OUTPUT_PATH, exist_ok=True)
-        print(f"Extract {self.INPUT_PATH} to {self.OUTPUT_PATH}")
+        print(f"Extract '{self.INPUT_PATH}' to '{self.OUTPUT_PATH}'")
 
-        for info in uwd.FILE_INFO:
-            offset = info["offset"]
-            length = info["length"]
-            name = info["name"]
-
-            file.seek(offset)
-            data = file.read_bytes(length)
+        for idx, info in enumerate(uwd.FILE_INFO):
+            name = info.name
+            data = info.data
 
             file_output_path = os.path.join(self.OUTPUT_PATH, name)
             os.makedirs(os.path.dirname(file_output_path), exist_ok=True)
@@ -46,5 +42,5 @@ class Unpacker:
                 f.write(data)
                 print("ok")
 
-        file.close()
+        reader.close()
         print("Extract end")
