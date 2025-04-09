@@ -7,6 +7,7 @@ from pathlib import Path
 
 from Common import print_err, HELP_STR, sizeof_fmt, to_hex
 from UnityWebData import UnityWebData
+from Unpacker import UnPacker
 
 
 class Packer:
@@ -72,48 +73,6 @@ class Packer:
         print(f"MD5 checksum: {md5}")
 
 
-class UnPacker:
-    input_path = None
-    output_path = None
-
-    def unpack(self, input_path, output_path):
-        print("Start unpacking...")
-        self.input_path = input_path
-        self.output_path = output_path
-
-        if self.input_path is None:
-            print_err(f"input path is None")
-        if not os.path.isfile(self.input_path):
-            print_err(f"input path {self.input_path} is not a file")
-
-        uwd = UnityWebData()
-        file = uwd.load(self.input_path)
-
-        if self.output_path is None:
-            self.output_path = os.path.join(os.getcwd(), "output")
-        os.makedirs(self.output_path, exist_ok=True)
-        print(f"Extract {self.input_path} to {self.output_path}")
-
-        for info in uwd.FILE_INFO:
-            offset = info["offset"]
-            length = info["length"]
-            name = info["name"]
-
-            file.seek(offset)
-            data = file.read_bytes(length)
-
-            file_output_path = os.path.join(self.output_path, name)
-            os.makedirs(os.path.dirname(file_output_path), exist_ok=True)
-
-            with open(file_output_path, "wb") as f:
-                print(f"Extract {name}...", end="")
-                f.write(data)
-                print("ok")
-
-        file.close()
-        print("Extract end")
-
-
 class Inspector:
     def __init__(self, path):
         self.path = path
@@ -141,6 +100,7 @@ class Inspector:
 
         data.close()
 
+
 class Main:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
@@ -161,9 +121,9 @@ class Main:
         args = self.parser.parse_args()
 
         if args.pack:
-            pass  # TODO Packer().pack(args.ARG_INPUT, args.ARG_OUTPUT)
+            pass  # TODO Packer(args.ARG_INPUT, args.ARG_OUTPUT).pack()
         elif args.unpack:
-            pass  # TODO UnPacker().unpack(args.ARG_INPUT, args.ARG_OUTPUT)
+            UnPacker(args.ARG_INPUT, args.ARG_OUTPUT).unpack()
         elif args.inspect:
             Inspector(args.ARG_INPUT).inspect()
         else:
