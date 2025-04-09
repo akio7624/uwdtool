@@ -133,10 +133,10 @@ class Inspector:
 
         for idx, info in enumerate(file.FILE_INFO):
             print(f"File #{idx}")
-            print(f"Name: {info['name']}")
-            print(f"Offset: {info['offset']} (" + to_hex(info['offset'], 8) + ")")
-            size_human = sizeof_fmt(info['length'])
-            print(f"Length: {info['length']} ({size_human})")
+            print(f"Name: {info.name}")
+            print(f"Offset: {info.offset} (" + to_hex(info.offset, 8) + ")")
+            size_human = sizeof_fmt(info.length)
+            print(f"Length: {info.length} ({size_human})")
             print()
 
         data.close()
