@@ -1,12 +1,9 @@
 import hashlib
 import os
 import struct
-from glob import glob
-from pathlib import Path
 from typing import Optional, BinaryIO
 
 from Common import print_err, sizeof_fmt
-from Inspector import Inspector
 
 
 class Packer:
