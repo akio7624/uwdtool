@@ -3,69 +3,76 @@ import os
 import struct
 from glob import glob
 from pathlib import Path
+from typing import Optional, BinaryIO
 
-from Common import print_err
+from Common import print_err, sizeof_fmt
 from Inspector import Inspector
 
 
 class Packer:
-    input_path = None
-    output_path = None
-
-    def pack(self, input_path, output_path):
-        print("Start packing...")
-        self.input_path = input_path
-        self.output_path = output_path
-
-        if self.input_path is None:
+    def __init__(self, input_path: Optional[str], output_path: Optional[str]):
+        if input_path is None:
             print_err(f"input path is None")
-        if not os.path.isdir(self.input_path):
-            print_err(f"input path {self.input_path} is not a directory")
-        if self.output_path is None:
-            print_err(f"output path is None")
+        elif not os.path.isdir(input_path):
+            print_err(f"input path '{input_path}' is not a directory")
 
-        os.makedirs(Path(self.output_path).parent.absolute(), exist_ok=True)
+        if output_path is None:
+            print_err(f"input path is None")
 
-        print(f"Pack files in {self.input_path} to {self.output_path}")
+        self.INPUT_PATH: str = input_path
+        self.OUTPUT_PATH: str = output_path
 
-        files = [y for x in os.walk(self.input_path) for y in glob(os.path.join(x[0], '*'))]
-        targets_ = [x for x in files if os.path.isfile(x)]
-        targets = []
-        for target in targets_:
-            if self.input_path.endswith("/"):
-                targets.append(target[len(self.input_path):].replace("\\", "/"))
-            else:
-                targets.append(target[len(self.input_path)+1:].replace("\\", "/"))
+    def pack(self):
+        print("Start packing...")
 
-        OUTPUT = open(self.output_path, "wb")
+        os.makedirs(os.path.dirname(self.OUTPUT_PATH), exist_ok=True)
 
-        OUTPUT.write(bytes("UnityWebData1.0\0", "utf-8"))
+        print(f"Pack files in {self.INPUT_PATH} to {self.OUTPUT_PATH}")
 
-        header_length = 0
-        for file_name in targets:
-            header_length += (4 + 4 + 4 + len(bytes(file_name, "utf-8")))
+        files: list[str] = list()
+        for dir_path, dir_names, file_names in os.walk(self.INPUT_PATH):
+            files += [os.path.join(dir_path, file_name) for file_name in file_names]
 
-        OUTPUT.write(struct.pack("<i", 20+header_length))
+        target_path: list[tuple[str, str]] = list()
+        for full_path in files:
+            rel_path = os.path.normpath(os.path.relpath(full_path, self.INPUT_PATH)).replace("\\", "/")
+            target_path.append((full_path, rel_path))
 
-        file_offset = 20+header_length
-        for file_name in targets:
-            OUTPUT.write(struct.pack("<i", file_offset))
-            file_size = os.path.getsize(os.path.join(self.input_path, file_name))
+        header_length = 16 + 4  # length of signature and beginning of file area field
+
+        # calculate file info area
+        for _, rel_path in target_path:
+            header_length += 4  # length of file offset field
+            header_length += 4  # length of file size field
+            header_length += 4  # length of file name length field
+            header_length += len(rel_path.encode("utf-8"))  # length of file name
+
+        handle: BinaryIO = open(self.OUTPUT_PATH, "wb")
+        handle.write(b'UnityWebData1.0\x00')  # write signature bytes
+        handle.write(struct.pack("<I", header_length))  # write beginning of file area field
+
+        file_offset = header_length
+        for source_path, rel_path in target_path:
+            file_size = os.path.getsize(source_path)
+
+            handle.write(struct.pack("<I", file_offset))  # write file offset field
+            handle.write(struct.pack("<I", file_size))  # write file size field
+            handle.write(struct.pack("<I", len(rel_path.encode("utf-8"))))  # write length of file name field
+            handle.write(rel_path.encode("utf-8"))  # write file name field
+
             file_offset += file_size
-            OUTPUT.write(struct.pack("<i", file_size))
-            OUTPUT.write(struct.pack("<i", len(bytes(file_name, "utf-8"))))
-            OUTPUT.write(bytes(file_name, "utf-8"))
 
-        for file_name in targets:
-            print(f"Add file {file_name}...", end="")
-            with open(os.path.join(self.input_path, file_name), "rb") as f:
-                OUTPUT.write(f.read())
+        # write real file contents
+        for source_path, rel_path in target_path:
+            print(f"Add file {rel_path}...", end="")
+            with open(source_path, "rb") as f:
+                handle.write(f.read())
             print("ok")
 
-        OUTPUT.close()
+        handle.close()
 
-        total_size = os.path.getsize(self.output_path)
+        total_size = os.path.getsize(self.OUTPUT_PATH)
         print("Packing ended successfully!")
-        print(f"Total Size: {total_size}bytes ({Inspector().sizeof_fmt(total_size)})")
-        md5 = hashlib.md5(open(self.output_path, "rb").read()).hexdigest()
+        print(f"Total Size: {total_size}bytes ({sizeof_fmt(total_size)})")
+        md5 = hashlib.md5(open(self.OUTPUT_PATH, "rb").read()).hexdigest()
         print(f"MD5 checksum: {md5}")

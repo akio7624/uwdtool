@@ -26,7 +26,7 @@ class Main:
         args = self.parser.parse_args()
 
         if args.pack:
-            pass  # TODO Packer(args.ARG_INPUT, args.ARG_OUTPUT).pack()
+            Packer(args.ARG_INPUT, args.ARG_OUTPUT).pack()
         elif args.unpack:
             Unpacker(args.ARG_INPUT, args.ARG_OUTPUT).unpack()
         elif args.inspect:
