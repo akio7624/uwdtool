@@ -1,8 +1,8 @@
 import os
 from typing import Optional
 
-from Common import print_err
-from UnityWebData import UnityWebData
+from .Common import print_err
+from .UnityWebData import UnityWebData
 
 
 class Unpacker:

@@ -3,7 +3,7 @@ import os
 import struct
 from typing import Optional, BinaryIO
 
-from Common import print_err, sizeof_fmt
+from .Common import print_err, sizeof_fmt
 
 
 class Packer:

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from BinaryReader import BinaryReader
-from Common import print_err
+from .BinaryReader import BinaryReader
+from .Common import print_err
 
 
 @dataclass

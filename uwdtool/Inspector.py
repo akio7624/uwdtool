@@ -1,7 +1,7 @@
 import os
 
-from Common import print_err, to_hex, sizeof_fmt
-from UnityWebData import UnityWebData
+from .Common import print_err, to_hex, sizeof_fmt
+from .UnityWebData import UnityWebData
 
 
 class Inspector:
