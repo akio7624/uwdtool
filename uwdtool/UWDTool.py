@@ -1,9 +1,9 @@
 import argparse
 
-from Common import print_err, HELP_STR
-from Unpacker import Unpacker
-from Packer import Packer
-from Inspector import Inspector
+from .Common import print_err, HELP_STR
+from .Unpacker import Unpacker
+from .Packer import Packer
+from .Inspector import Inspector
 
 
 class Main:
