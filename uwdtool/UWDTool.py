@@ -6,6 +6,10 @@ from .Packer import Packer
 from .Inspector import Inspector
 
 
+def main():
+    Main().main()
+
+
 class Main:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
