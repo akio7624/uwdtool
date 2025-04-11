@@ -1,4 +1,4 @@
-UWDT_VERSION = "1.1.0"
+UWDT_VERSION = "1.2.0"
 HELP_STR = f"""UWDTool v{UWDT_VERSION}"""
 
 def print_err(msg: str):
