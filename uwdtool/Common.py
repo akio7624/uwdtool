@@ -1,5 +1,18 @@
 UWDT_VERSION = "1.2.0"
-HELP_STR = f"""UWDTool v{UWDT_VERSION}"""
+HELP_STR = f"""
+UWDTool v{UWDT_VERSION}
+
+::Release Notes::
+  2025.04.12  Code refactoring
+  2023.06.11  Fixed Windows path backslash issue
+  2023.04.22  Initial release
+  
+::Path Arguments::
+  In Inspector mode, -i must be a UnityWebData 1.0 file, and -o is not required.
+  In Pack mode, -i should be a folder containing the files to be packed, and -o is the path where the UnityWebData file will be saved.
+  In Unpack mode, -i must be a UnityWebData 1.0 file, and -o is the folder where the unpacked files will be saved.
+  If -o is not specified, the files will be saved in a folder named output under the current working directory.
+""".strip()
 
 def print_err(msg: str):
     print(msg)
