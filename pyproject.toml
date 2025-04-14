@@ -1,3 +1,10 @@
+# poetry install
+# poetry config pypi-token.test-pypi pypi-xxxxx
+# poetry config repositories.test-pypi https://test.pypi.org/legacy/
+# poetry build
+# poetry publish -r test-pypi
+# pip install --index-url https://test.pypi.org/simple/ uwdtool==1.2.0.dev0
+
 [tool.poetry]
 name = "uwdtool"
 version = "1.2.0.dev4"
