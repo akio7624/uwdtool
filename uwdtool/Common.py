@@ -3,9 +3,9 @@ HELP_STR = f"""
 UWDTool v{UWDT_VERSION}
 
 ::Release Notes::
-  2025.04.12  Code refactoring
-  2023.06.11  Fixed Windows path backslash issue
-  2023.04.22  Initial release
+  2025.04.12  v1.2.0 Code refactoring
+  2023.06.11  v1.1.0 Fixed Windows path backslash issue
+  2023.04.22  v1.0.0 Initial release
   
 ::Path Arguments::
   In Inspector mode, -i must be a UnityWebData 1.0 file, and -o is not required.
