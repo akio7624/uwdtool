@@ -11,6 +11,7 @@ class BinaryReader:
     def __init__(self, path: str, compression: str):
         if compression == "auto":
             compression = check_compression(path)
+            print(f"Compression detected: {compression}")
 
         if compression == "none":
             self.file = open(path, "rb")
