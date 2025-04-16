@@ -7,7 +7,7 @@
 
 [tool.poetry]
 name = "uwdtool"
-version = "1.2.0.dev6"
+version = "1.2.0"
 description = "The tool to pack and unpack UnityWebData 1.0 files"
 authors = ["akio7624"]
 readme = "README.md"
