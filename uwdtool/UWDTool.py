@@ -25,7 +25,7 @@ class Main:
 
         self.parser.add_argument("-i", dest="ARG_INPUT", help="input path")
         self.parser.add_argument("-o", dest="ARG_OUTPUT", help="output path")
-        self.parser.add_argument("-c", "--compression", choices=["brotli", "gzip", "none"], required=False, default="none", help="Compression type to use when packing or unpacking")
+        self.parser.add_argument("-c", "--compression", choices=["brotli", "gzip", "none"], required=False, default="auto", help="Compression type to use when packing or unpacking")
 
     def main(self):
         args = self.parser.parse_args()

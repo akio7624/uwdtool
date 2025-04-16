@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Literal
 
 from .BinaryReader import BinaryReader
 from .Common import print_err
@@ -20,7 +19,7 @@ class UnityWebData:
         self.BEGINNING_OFFSET: int = -1
         self.FILE_INFO: list[FILE] = list()
 
-    def load(self, path: str, compression: Literal["none", "brotli", "gzip"]) -> BinaryReader:
+    def load(self, path: str, compression: str) -> BinaryReader:
         reader: BinaryReader = BinaryReader(path)
 
         self.SIGNATURE = reader.read_string(16)

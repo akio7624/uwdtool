@@ -1,12 +1,12 @@
 import os
-from typing import Literal, Optional
+from typing import Optional
 
 from .Common import print_err, to_hex, sizeof_fmt
 from .UnityWebData import UnityWebData
 
 
 class Inspector:
-    def __init__(self, path: Optional[str], compression: Literal["none", "brotli", "gzip"]):
+    def __init__(self, path: Optional[str], compression: str):
         if path is None:
             print_err(f"input path is None")
 

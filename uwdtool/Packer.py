@@ -1,13 +1,13 @@
 import hashlib
 import os
 import struct
-from typing import Optional, BinaryIO, Literal
+from typing import Optional, BinaryIO
 
 from .Common import print_err, sizeof_fmt
 
 
 class Packer:
-    def __init__(self, input_path: Optional[str], output_path: Optional[str], compression: Literal["none", "brotli", "gzip"]):
+    def __init__(self, input_path: Optional[str], output_path: Optional[str], compression: str):
         if input_path is None:
             print_err(f"input path is None")
         elif not os.path.isdir(input_path):
