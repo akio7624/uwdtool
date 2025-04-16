@@ -34,7 +34,7 @@ int값은 리틀 엔디안으로 읽어야합니다.
 어떤 파일을 읽고자 한다면 헤더에서 해당 파일의 위치를 가져와서 그 위치부터 헤더의 파일 크기만큼 읽으면 됩니다.
 
 ## 파일 구조 이미지
-![img_format](https://raw.githubusercontent.com/yuria0309/uwdtool/master/img/unitywebdata_format.png)
+![img_format](img/unitywebdata_format.png)
 
 ## 사용법
 
