@@ -1,4 +1,8 @@
+import gzip
+import io
 import struct
+
+import brotli
 
 from uwdtool.Common import print_err, check_compression
 
@@ -11,9 +15,13 @@ class BinaryReader:
         if compression == "none":
             self.file = open(path, "rb")
         elif compression == "gzip":
-            pass  # TODO
+            with gzip.open(path, "rb") as f:
+                decompressed = f.read()
+            self.file = io.BytesIO(decompressed)
         elif compression == "brotli":
-            pass  # TODO
+            with open(path, 'rb') as f:
+                decompressed = brotli.decompress(f.read())
+            self.file = io.BytesIO(decompressed)
         else:
             print_err(f"Unknown compression: {compression}")
 
