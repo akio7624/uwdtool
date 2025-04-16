@@ -1,9 +1,21 @@
 import struct
 
+from uwdtool.Common import print_err, check_compression
+
 
 class BinaryReader:
-    def __init__(self, path: str):
-        self.file = open(path, "rb")
+    def __init__(self, path: str, compression: str):
+        if compression == "auto":
+            compression = check_compression(path)
+
+        if compression == "none":
+            self.file = open(path, "rb")
+        elif compression == "gzip":
+            pass  # TODO
+        elif compression == "brotli":
+            pass  # TODO
+        else:
+            print_err(f"Unknown compression: {compression}")
 
     def read_string(self, size: int) -> str:
         return self.file.read(size).decode("utf-8")

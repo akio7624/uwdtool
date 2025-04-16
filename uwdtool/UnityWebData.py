@@ -20,7 +20,7 @@ class UnityWebData:
         self.FILE_INFO: list[FILE] = list()
 
     def load(self, path: str, compression: str) -> BinaryReader:
-        reader: BinaryReader = BinaryReader(path)
+        reader: BinaryReader = BinaryReader(path, compression)
 
         self.SIGNATURE = reader.read_string(16)
         if self.SIGNATURE != "UnityWebData1.0\0":
