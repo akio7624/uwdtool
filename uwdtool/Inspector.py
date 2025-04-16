@@ -1,19 +1,21 @@
 import os
+from typing import Literal
 
 from .Common import print_err, to_hex, sizeof_fmt
 from .UnityWebData import UnityWebData
 
 
 class Inspector:
-    def __init__(self, path):
+    def __init__(self, path: str, compression: Literal["none", "brotli", "gzip"]):
         self.path = path
+        self.compression = compression
 
     def inspect(self):
         if not os.path.isfile(self.path):
             print_err(f"Path '{self.path}' is not a file")
 
         file = UnityWebData()
-        data = file.load(self.path)
+        data = file.load(self.path, self.compression)
 
         print(f"** Dump of '{self.path}'")
         print()

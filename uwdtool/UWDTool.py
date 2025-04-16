@@ -31,11 +31,11 @@ class Main:
         args = self.parser.parse_args()
 
         if args.pack:
-            Packer(args.ARG_INPUT, args.ARG_OUTPUT).pack()
+            Packer(args.ARG_INPUT, args.ARG_OUTPUT, args.compression).pack()
         elif args.unpack:
-            Unpacker(args.ARG_INPUT, args.ARG_OUTPUT).unpack()
+            Unpacker(args.ARG_INPUT, args.ARG_OUTPUT, args.compression).unpack()
         elif args.inspect:
-            Inspector(args.ARG_INPUT).inspect()
+            Inspector(args.ARG_INPUT, args.compression).inspect()
         else:
             print_err("Please select option.")
 

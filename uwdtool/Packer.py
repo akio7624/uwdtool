@@ -1,13 +1,13 @@
 import hashlib
 import os
 import struct
-from typing import Optional, BinaryIO
+from typing import Optional, BinaryIO, Literal
 
 from .Common import print_err, sizeof_fmt
 
 
 class Packer:
-    def __init__(self, input_path: Optional[str], output_path: Optional[str]):
+    def __init__(self, input_path: Optional[str], output_path: Optional[str], compression: Literal["none", "brotli", "gzip"]):
         if input_path is None:
             print_err(f"input path is None")
         elif not os.path.isdir(input_path):
@@ -18,6 +18,7 @@ class Packer:
 
         self.INPUT_PATH: str = input_path
         self.OUTPUT_PATH: str = output_path
+        self.compression = compression  # TODO pack and compress
 
     def pack(self):
         print("Start packing...")

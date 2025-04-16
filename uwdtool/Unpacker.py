@@ -1,12 +1,12 @@
 import os
-from typing import Optional
+from typing import Optional, Literal
 
 from .Common import print_err
 from .UnityWebData import UnityWebData
 
 
 class Unpacker:
-    def __init__(self, input_path: Optional[str], output_path: Optional[str]):
+    def __init__(self, input_path: Optional[str], output_path: Optional[str], compression: Literal["none", "brotli", "gzip"]):
         if input_path is None:
             print_err(f"input path is None")
         elif not os.path.isfile(input_path):
@@ -19,6 +19,7 @@ class Unpacker:
 
         self.INPUT_PATH: str = input_path
         self.OUTPUT_PATH: str = output_path
+        self.compression = compression
 
         os.makedirs(self.OUTPUT_PATH, exist_ok=True)
 
@@ -26,7 +27,7 @@ class Unpacker:
         print("Start unpacking...")
 
         uwd = UnityWebData()
-        reader = uwd.load(self.INPUT_PATH)
+        reader = uwd.load(self.INPUT_PATH, self.compression)
 
         print(f"Extract '{self.INPUT_PATH}' to '{self.OUTPUT_PATH}'")
 
