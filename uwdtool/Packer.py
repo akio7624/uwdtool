@@ -1,9 +1,12 @@
 import hashlib
+import io
 import os
 import struct
+from io import BytesIO
 from typing import Optional, BinaryIO
 
 from .Common import print_err, sizeof_fmt
+from .CompressionManager import compress_gzip
 
 
 class Packer:
@@ -18,7 +21,7 @@ class Packer:
 
         self.INPUT_PATH: str = input_path
         self.OUTPUT_PATH: str = output_path
-        self.compression = compression  # TODO pack and compress
+        self.compression = compression
 
     def pack(self):
         print("Start packing...")
@@ -45,18 +48,18 @@ class Packer:
             header_length += 4  # length of file name length field
             header_length += len(rel_path.encode("utf-8"))  # length of file name
 
-        handle: BinaryIO = open(self.OUTPUT_PATH, "wb")
-        handle.write(b'UnityWebData1.0\x00')  # write signature bytes
-        handle.write(struct.pack("<I", header_length))  # write beginning of file area field
+        bio: BytesIO = io.BytesIO()
+        bio.write(b'UnityWebData1.0\x00')  # write signature bytes
+        bio.write(struct.pack("<I", header_length))  # write beginning of file area field
 
         file_offset = header_length
         for source_path, rel_path in target_path:
             file_size = os.path.getsize(source_path)
 
-            handle.write(struct.pack("<I", file_offset))  # write file offset field
-            handle.write(struct.pack("<I", file_size))  # write file size field
-            handle.write(struct.pack("<I", len(rel_path.encode("utf-8"))))  # write length of file name field
-            handle.write(rel_path.encode("utf-8"))  # write file name field
+            bio.write(struct.pack("<I", file_offset))  # write file offset field
+            bio.write(struct.pack("<I", file_size))  # write file size field
+            bio.write(struct.pack("<I", len(rel_path.encode("utf-8"))))  # write length of file name field
+            bio.write(rel_path.encode("utf-8"))  # write file name field
 
             file_offset += file_size
 
@@ -64,10 +67,26 @@ class Packer:
         for source_path, rel_path in target_path:
             print(f"Add file {rel_path}...", end="")
             with open(source_path, "rb") as f:
-                handle.write(f.read())
+                bio.write(f.read())
             print("ok")
 
-        handle.close()
+        final_data: Optional[bytes]
+        if self.compression == "none" or self.compression == "auto":
+            print(f"Not compressing")
+            final_data = bio.getvalue()
+        else:
+            print(f"Compress as {self.compression}...")
+            if self.compression == "brotli":
+                pass  # TODO
+            elif self.compression == "gzip":
+                final_data = compress_gzip(bio.getvalue())
+            else:
+                print_err(f"Unsupported compression '{self.compression}'")
+
+        bio.close()
+
+        with open(self.OUTPUT_PATH, "wb") as f:
+            f.write(final_data)
 
         total_size = os.path.getsize(self.OUTPUT_PATH)
         print("Packing ended successfully!")

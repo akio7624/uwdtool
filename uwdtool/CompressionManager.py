@@ -1,5 +1,9 @@
+import gzip
+import io
 import math
 from typing import Final
+
+from uwdtool.Common import print_err
 
 
 def _is_gzip(data: bytearray) -> bool:
@@ -70,3 +74,57 @@ def check_compression(path: str) -> str:
         return "gzip"
     else:
         return "none"
+
+
+def compress_gzip(data: bytes) -> bytes:
+    buffer = io.BytesIO()
+    with gzip.GzipFile(fileobj=buffer, mode="wb") as gz:
+        gz.write(data)
+
+    bio = io.BytesIO(buffer.getvalue())
+    buffer.close()
+
+    ID1 = bio.read(1)
+    ID2 = bio.read(1)
+    CM = bio.read(1)
+    FLG = int.from_bytes(bio.read(1), byteorder="little")
+    bio.seek(4, io.SEEK_CUR)  # skip MTIME
+    bio.seek(1, io.SEEK_CUR)  # skip XFL
+    bio.seek(1, io.SEEK_CUR)  # skip OS
+
+    if ID1 != b'\x1F' or ID2 != b'\x8B' or CM != b'\x08':
+        print_err(f"Error occurred while parsing the gzip header")
+
+    FCOMMENT = False
+    comment_start_ofs = 1 + 1 + 1 + 1 + 4 + 1 + 1
+    comment_end_ofs = 0
+
+    # Python's gzip data likely has all flags set to 0
+    if FLG & 0x02:  # FHCRC is set
+        bio.seek(2, io.SEEK_CUR)  # skip FHCRC
+        comment_start_ofs += 2
+    if FLG & 0x04:  # FEXTRA is set
+        length = int.from_bytes(bio.read(2), byteorder="little")
+        bio.seek(length, io.SEEK_CUR)  # skip FEXTRA
+        comment_start_ofs += 2
+        comment_start_ofs += length
+    if FLG & 0x08:  # FNAME is set
+        while bio.read(1) != b'\x00':  # skip FNAME
+            comment_start_ofs += 1
+    if FLG & 0x10:  # FCOMMENT is set
+        comment_start_ofs = bio.tell()
+        while bio.read(1) != b'\x00':  # skip FCOMMENT
+            pass
+        comment_end_ofs = bio.tell()
+        FCOMMENT = True
+
+    editable = bytearray(bio.getvalue())
+    bio.close()
+
+    print("Add comment...")
+    if not FCOMMENT:
+        editable[3] |= 0x10  # set FCOMMENT
+
+    editable[comment_start_ofs:comment_end_ofs] = b"UnityWeb Compressed Content (gzip)\x00"
+
+    return bytes(editable)
