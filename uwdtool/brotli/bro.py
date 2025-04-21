@@ -7,7 +7,7 @@ import os
 import platform
 
 import uwdtool.brotli.brotli as brotli
-print(brotli.__file__)
+# print(brotli.__file__)
 
 
 # default values of encoder parameters
