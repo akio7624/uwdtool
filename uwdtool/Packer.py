@@ -3,7 +3,7 @@ import io
 import os
 import struct
 from io import BytesIO
-from typing import Optional, BinaryIO
+from typing import Optional
 
 from .Common import print_err, sizeof_fmt
 from .CompressionManager import compress_gzip
