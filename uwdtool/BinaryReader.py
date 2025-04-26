@@ -4,8 +4,8 @@ import struct
 
 import uwdtool.brotli.brotli as brotli
 
-from uwdtool.Common import print_err
-from uwdtool.CompressionManager import check_compression
+from .Common import print_err
+from .CompressionManager import check_compression
 
 
 class BinaryReader:

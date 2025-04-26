@@ -3,7 +3,7 @@ import io
 import math
 from typing import Final
 
-from uwdtool.Common import print_err
+from .Common import print_err
 import uwdtool.brotli.brotli as brotli
 
 
