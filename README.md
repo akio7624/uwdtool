@@ -75,3 +75,5 @@ This is a custom binary template for UnityWebData files, designed for use with 0
 
 If the data file is compressed, you must decompress it before analysis.
 
+## Other  
+The Python module that includes the feature to compress with Brotli, including comments, was built using the code from [this link](https://github.com/Unity-Technologies/brotli/tree/5a6d5d9c7f3f813280900cabcaabcbd0d51d5bbc).

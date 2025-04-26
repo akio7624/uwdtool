@@ -69,3 +69,6 @@ https://gist.github.com/akio7624/908497ef15a84a436fae9ab5439aa01f
 010에디터에서 지원하는 바이너리 템플릿을 활용한 UnityWebData 전용 바이너리 템플릿으로, 파일 내부 구조를 시각화하여 분석하기 편하게 한다.
 
 분석할 데이터 파일이 압축이 되어 있는 경우 압축을 먼저 풀어야한다.
+
+## 기타
+코맨트를 포함하여 brotli로 압축하는 기능의 pyd는 [이곳](https://github.com/Unity-Technologies/brotli/tree/5a6d5d9c7f3f813280900cabcaabcbd0d51d5bbc)의 코드로 빌드되었음.
