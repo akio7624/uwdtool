@@ -7,13 +7,13 @@
 
 [tool.poetry]
 name = "uwdtool"
-version = "1.2.0"
+version = "1.3.0.dev0"
 description = "The tool to pack and unpack UnityWebData 1.0 files"
 authors = ["yuria0309", "akio7624"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.8,<=3.13"
 
 [tool.poetry.scripts]
 uwdtool = "uwdtool.UWDTool:main"
