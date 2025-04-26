@@ -6,7 +6,7 @@ from io import BytesIO
 from typing import Optional
 
 from .Common import print_err, sizeof_fmt
-from .CompressionManager import compress_gzip
+from .CompressionManager import compress_gzip, compress_brotli
 
 
 class Packer:
@@ -70,14 +70,14 @@ class Packer:
                 bio.write(f.read())
             print("ok")
 
-        final_data: Optional[bytes]
+        final_data: Optional[bytes] = None
         if self.compression == "none" or self.compression == "auto":
             print(f"Not compressing")
             final_data = bio.getvalue()
         else:
             print(f"Compress as {self.compression}...")
             if self.compression == "brotli":
-                pass  # TODO
+                final_data = compress_brotli(bio.getvalue())
             elif self.compression == "gzip":
                 final_data = compress_gzip(bio.getvalue())
             else:

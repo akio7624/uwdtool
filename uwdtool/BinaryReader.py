@@ -2,7 +2,7 @@ import gzip
 import io
 import struct
 
-import brotli
+import uwdtool.brotli.brotli as brotli
 
 from uwdtool.Common import print_err
 from uwdtool.CompressionManager import check_compression

@@ -4,6 +4,7 @@ import math
 from typing import Final
 
 from uwdtool.Common import print_err
+import uwdtool.brotli.brotli as brotli
 
 
 def _is_gzip(data: bytearray) -> bool:
@@ -128,3 +129,23 @@ def compress_gzip(data: bytes) -> bytes:
     editable[comment_start_ofs:comment_end_ofs] = b"UnityWeb Compressed Content (gzip)\x00"
 
     return bytes(editable)
+
+
+def compress_brotli(data: bytes) -> bytes:
+    compressed_data = bytes()
+
+    try:
+        compressed_data = brotli.compress(
+            data,
+            comment="UnityWeb Compressed Content (brotli)",
+            mode=brotli.MODE_GENERIC,
+            quality=5,  # 0-11
+            lgwin=22,
+            lgblock=0,
+            dictionary=b""
+        )
+    except Exception as e:
+        print_err(f"bro.py Error: {e}")
+
+    return compressed_data
+
