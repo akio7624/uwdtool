@@ -14,8 +14,10 @@ pip install uwdtool
 
 ### CLI
 ```
-uwdtool <동작옵션> [-i 입력경로] [-o 출력경로]
+uwdtool [-h] [-p | -u | -isp] [-i ARG_INPUT] [-o ARG_OUTPUT] [-c {brotli,gzip,none}]
 ```
+
+* -h --help: 도움말 및 프로그램의 정보를 출력한다.
 
 * -p --pack: 입력 경로의 파일들을 UnityWebData 파일로 만들어 출력 경로에 저장한다.
 이 때 입력 경로는 패킹할 파일들을 포함하고 있는 폴더의 경로이다.
@@ -23,16 +25,8 @@ uwdtool <동작옵션> [-i 입력경로] [-o 출력경로]
 이 때 입력 경로는 언패킹할 파일의 경로이며, 출력경로는 파일들이 저장될 폴더의 경로이다.
 * -isp --inspect: 입력경로의 UnityWebData 파일이 포함하고 있는 파일들의 정보를 출력한다.
 여기에는 파일의 이름과 크기가 표시됩니다. 출력 경로는 필요하지 않다.
-* -h --help: 도움말 및 프로그램의 정보를 출력한다.
 
-### Python
-```python
-from uwdtool import UWDTool
-
-UWDTool.Packer(input_path, output_path).pack()  # packing
-UWDTool.UnPacker(input_path, output_path).unpack()  # unpacking
-UWDTool.Inspector(input_path, output_path).inspect()  # inspector
-```
+* -c: 압축 형식을 지정한다. none은 압축이 되어 있지 않다는 것을 의미하며, 옵션을 생략하면 자동으로 감지한다.
 
 
 ## UnityWebData 파일이란
@@ -46,7 +40,7 @@ UnityWebData 파일은 WebGL 게임에서 wasm 파일과 함께 로드되어 사
 다만 압축이 되있다 하더라도 압축을 해제한 이후에 얻을 수 있는 실제 UnityWebData 파일의 구조는 모두 동일하다.
 
 ## UnityWebData 구조
-![img_format](img/unitywebdata_format.png)
+![unitywebdata_format.png](img/unitywebdata_format.png)
 
 ### 헤더
 |    명칭    | 크기(byte) |  자료형   |                 설명                 |
@@ -67,3 +61,11 @@ UnityWebData 파일은 WebGL 게임에서 wasm 파일과 함께 로드되어 사
 ### 파일 영역
 이후에는 파일들이 나열되어있다.
 어떤 파일을 읽고자 한다면 헤더에서 해당 파일의 위치와 크기를 가져와서 해당 위치부터 크기만큼의 바이트를 읽으면 된다.
+
+## 010 에디터용 바이너리 템플릿
+![uwd010template.png](img/uwd010template.png)
+https://gist.github.com/akio7624/908497ef15a84a436fae9ab5439aa01f
+
+010에디터에서 지원하는 바이너리 템플릿을 활용한 UnityWebData 전용 바이너리 템플릿으로, 파일 내부 구조를 시각화하여 분석하기 편하게 한다.
+
+분석할 데이터 파일이 압축이 되어 있는 경우 압축을 먼저 풀어야한다.
