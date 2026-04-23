@@ -8,12 +8,16 @@
 
 # UWDTool
 A tool for extracting, packing, or inspecting the contents of data files used in Unity WebGL games, including assets and other related resources.
+Supports processing of `*.unityweb` files used in Unity 2019 and earlier versions.
 
 ## What Is UnityWebData
 A UnityWebData file is a file that is loaded and used in conjunction with a WebAssembly file in a WebGL game, primarily a file that combines all of the asset, resource, and metadata files.
 
 ## Installation and Usage
 ### Installation
+> [!NOTE]
+> Python 3.9 or higher is required.
+
 ```
 pip install uwdtool
 ```
@@ -74,6 +78,3 @@ To read a specific file, locate its offset and size from the header, then read t
 This is a custom binary template for UnityWebData files, designed for use with 010 Editor's binary template system. It provides a visual representation of the internal structure, making it easier to analyze and understand the contents of a UnityWebData file.
 
 If the data file is compressed, you must decompress it before analysis.
-
-## Other  
-The Python module that includes the feature to compress with Brotli, including comments, was built using the code from [this link](https://github.com/Unity-Technologies/brotli/tree/5a6d5d9c7f3f813280900cabcaabcbd0d51d5bbc).

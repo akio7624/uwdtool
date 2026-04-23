@@ -3,17 +3,17 @@
 # poetry config repositories.test-pypi https://test.pypi.org/legacy/
 # poetry build
 # poetry publish -r test-pypi
-# pip install --index-url https://test.pypi.org/simple/ uwdtool==1.2.0.dev0
+# pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ uwdtool==1.x.0.dev1
 
 [tool.poetry]
 name = "uwdtool"
-version = "1.3.0"
+version = "1.4.0"
 description = "The tool to pack and unpack UnityWebData 1.0 files"
 authors = ["akio7624", "yuria0309"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<=3.13"
+python = ">=3.9,<=3.14"
 brotli = "^1.2.0"
 
 [tool.poetry.scripts]

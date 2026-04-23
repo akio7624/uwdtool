@@ -1,12 +1,13 @@
-UWDT_VERSION = "1.3.0"
+UWDT_VERSION = "1.4.0"
 HELP_STR = f"""
 UWDTool v{UWDT_VERSION}
 
 ::Release Notes::
-  2025.04.26  v1.3.0 Add support for compressed *.unityweb file
-  2025.04.12  v1.2.0 Code refactoring
-  2023.06.11  v1.1.0 Fixed Windows path backslash issue
   2023.04.22  v1.0.0 Initial release
+  2023.06.11  v1.1.0 Fixed Windows path backslash issue
+  2025.04.12  v1.2.0 Code refactoring
+  2025.04.26  v1.3.0 Add support for compressed *.unityweb file
+  2026.04.23  v1.4.0 Execution failure on Linux due to missing Brotli module
   
 ::Path Arguments::
   In Inspector mode, -i must be a UnityWebData 1.0 file, and -o is not required.
