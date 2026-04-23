@@ -26,7 +26,9 @@ class Packer:
     def pack(self):
         print("Start packing...")
 
-        os.makedirs(os.path.dirname(self.OUTPUT_PATH), exist_ok=True)
+        output_dir = os.path.dirname(self.OUTPUT_PATH)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
 
         print(f"Pack files in {self.INPUT_PATH} to {self.OUTPUT_PATH}")
 
