@@ -22,7 +22,8 @@ class Inspector:
 
         print(f"** Dump of '{self.path}'")
         print()
-        print(f"File Signature: {file.SIGNATURE.replace('\0', '\\0')}")
+        safe_signature = file.SIGNATURE.replace('\0', '\\0')  # In Python < 3.12, backslashes are not allowed inside f-string expressions.
+        print(f"File Signature: {safe_signature}")
         print(f"Beginning Offset: {file.BEGINNING_OFFSET} (" + to_hex(file.BEGINNING_OFFSET, 8) + ")")
         print()
 
