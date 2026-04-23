@@ -67,7 +67,7 @@ def _is_brotli(data: bytearray) -> bool:
 
 def check_compression(path: str) -> str:
     with open(path, "rb") as file:
-        data = bytearray(file.read())
+        data = bytearray(file.read(4096))
 
     if _is_brotli(data):
         return "brotli"

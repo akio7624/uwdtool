@@ -17,7 +17,7 @@ class Packer:
             print_err(f"input path '{input_path}' is not a directory")
 
         if output_path is None:
-            print_err(f"input path is None")
+            print_err(f"output path is None")
 
         self.INPUT_PATH: str = input_path
         self.OUTPUT_PATH: str = output_path
