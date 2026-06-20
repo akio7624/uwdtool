@@ -1,4 +1,4 @@
-UWDT_VERSION = "1.4.0"
+UWDT_VERSION = "1.4.1"
 HELP_STR = f"""
 UWDTool v{UWDT_VERSION}
 
@@ -8,6 +8,7 @@ UWDTool v{UWDT_VERSION}
   2025.04.12  v1.2.0 Code refactoring
   2025.04.26  v1.3.0 Add support for compressed *.unityweb file
   2026.04.23  v1.4.0 Execution failure on Linux due to missing Brotli module
+  2026.06.20  v1.4.1 Fix Python version constraint to fully support Python 3.14
   
 ::Path Arguments::
   In Inspector mode, -i must be a UnityWebData 1.0 file, and -o is not required.
